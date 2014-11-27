@@ -30,14 +30,14 @@ begin
 	
 	elsif rising_edge(clk)	then
 		if writeEnable = '1' then 
-			Registers(to_integer(R1)) <= data;
+			Registers(to_integer(unsigned(R1))) <= data;
 		end if;
 		Registers(31) <= PCr;
 	end if;
 end process write_P;
 
 -- Register werden gelesen
-R2Value <= Registers(to_integer(R2));
-R3Value <= Registers(to_integer(R3));
+R2Value <= Registers(to_integer(unsigned(R2)));
+R3Value <= Registers(to_integer(unsigned(R3)));
 PCValue <= Registers(31);
 end architecture behave;

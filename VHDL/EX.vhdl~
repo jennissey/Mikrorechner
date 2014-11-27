@@ -75,6 +75,6 @@ AluFlagOut <= 	toSTDLogic(opA = opB) when opcCEQ | opcCEQI,
 		toSTDLogic(opA > opB) when opcCGTS | opcCGTSI,
 		toSTDLogic(opAunsigned < opBunsigned) when opcCLTU | opcCLTUI,
 		toSTDLogic(opAunsigned > opBunsigned) when opcCGTU | opcCGTUI,
-		'-' when others;
+		'0' when others;
 		   
 end architecture behave;

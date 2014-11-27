@@ -11,7 +11,7 @@ use Work.CONSTANT_DEFINITIONS.all;
 entity Pipeline is
 port	( clk, nRes		: in	std_logic;
 	  IR, DATA		: in	signed(31 downto 0);
-	  memAdress, memData, PCout: out	signed(31 downto 0);
+	  memAdress, memData	: out	signed(31 downto 0);
 	  dnWE, dnOE		: out	std_logic);
 end entity Pipeline;
 
@@ -29,8 +29,6 @@ signal writeEnable				: std_logic;
 signal R2Value, R3Value				: signed(31 downto 0);
 
 begin
-
-PCout <= PCValue;
 
 IF_Register: process (clk, nRes) is
 begin
