@@ -19,25 +19,27 @@ end entity RF;
 
 -- Register File architecture
 architecture behave of RF is
+
 type Registers_t is array (31 downto 0) of signed(31 downto 0);
 signal Registers : Registers_t;
 
 begin
-write_P: process (clk, writeEnable, data, R1) is
-begin
-	if nRes = '0' then
-		Registers(31) <= (others => '0');
-	
-	elsif rising_edge(clk)	then
-		if writeEnable = '1' then 
-			Registers(to_integer(R1)) <= data;
+	write_P: process (clk, nRes) is
+	begin
+		if nRes = '0' then
+			Registers(31) <= (others => '0');
+		
+		elsif rising_edge(clk)	then
+			if writeEnable = '1' then 
+				Registers(to_integer(R1)) <= data;
+			end if;
+			Registers(31) <= PCr;
 		end if;
-		Registers(31) <= PCr;
-	end if;
-end process write_P;
+	end process write_P;
 
 -- Register werden gelesen
 R2Value <= Registers(to_integer(R2));
 R3Value <= Registers(to_integer(R3));
 PCValue <= Registers(31);
+
 end architecture behave;

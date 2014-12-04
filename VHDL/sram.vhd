@@ -22,15 +22,15 @@ package sramPkg is
   type fileIOty	is (none, dump, load);
 
   component sram is
-  generic (	addrWd	: integer range 2 to 32	:= 8;	-- #address bits
-		dataWd	: integer range 2 to 32	:= 8;	-- #data    bits
+  generic (	addrWd: integer range 2 to 32	:= 8;	-- #address bits
+		dataWd: integer range 2 to 32	:= 8;	-- #data    bits
 		fileId	: string		:= "sram.dat"); -- filename
   port (	nCS	: in    std_logic;		-- not Chip   Select
-		nWE	: in    std_logic;		-- not Write  Enable
-		nOE	: in    std_logic;		-- not Output Enable
-	        addr	: in    std_logic_vector(addrWd-1 downto 0);
-	        data	: inout std_logic_vector(dataWd-1 downto 0);
-	        fileIO	: in	fileIOty	:= none);
+	nWE	: in    std_logic;		-- not Write  Enable
+	nOE	: in    std_logic;		-- not Output Enable
+	addr	: in    std_logic_vector(addrWd-1 downto 0);
+	data	: inout std_logic_vector(dataWd-1 downto 0);
+	fileIO	: in	fileIOty	:= none);
   end component sram;
 end package sramPkg;
 

@@ -1,0 +1,151 @@
+# SimVision Command Script (Thu Dec 04 18:39:07 CET 2014)
+#
+# Version 13.10.s005
+#
+# You can restore this configuration with:
+#
+#      ncsim -cdslib /informatik2/students/home/2regenth/Mikrorechner/VHDL/cds.lib -logfile ncsim.log -errormax 15 -status work.proctst:testbench -input restore.tcl
+#
+
+
+#
+# Preferences
+#
+preferences set txe-locate-add-fibers 1
+preferences set signal-type-colors {assertion #FF0000 output #FFA500 group #0099FF inout #00FFFF input #FFFF00 fiber #00EEEE errorsignal #FF0000 unknown #FFFFFF overlay #0099FF internal #00FF00 reference #FFFFFF}
+preferences set txe-navigate-search-locate 0
+preferences set txe-view-hold 0
+preferences set plugin-enable-svdatabrowser-new 1
+preferences set verilog-colors {Su #ff0099 0 {} 1 {} HiZ #ff9900 We #00ffff Pu #9900ff Sm #00ff99 X #ff0000 StrX #ff0000 other #ffff00 Z #ff9900 Me #0000ff La #ff00ff St {}}
+preferences set txe-navigate-waveform-locate 1
+preferences set txe-view-hidden 0
+preferences set waveform-height 15
+preferences set txe-search-show-linenumbers 1
+preferences set plugin-enable-groupscope 0
+preferences set key-bindings {Edit>Undo Ctrl+z PageUp PageUp View>Zoom>In Alt+i PageDown PageDown Edit>Copy Ctrl+c ScrollDown {Down arrow} Edit>Create>Group Ctrl+g View>Zoom>FullY_widget y Simulation>NextInScope F7 Edit>Select>All Ctrl+a Edit>Ungroup Ctrl+Shift+G Format>Radix>Decimal Ctrl+Shift+D TopOfPage Home Edit>Create>Condition Ctrl+e {command -console SimVision {%w sidebar access designbrowser selectall}} Alt+a ScrollLeft {Left arrow} Edit>SelectAllText Alt+a Edit>TextSearchConsole Alt+s View>Zoom>FullX_widget = Windows>SendTo>Waveform Ctrl+w Simulation>Return Shift+F5 View>CallstackDown {Ctrl+Down arrow} Select>All Ctrl+a Edit>Delete Del Edit>Cut Ctrl+x Simulation>Run F2 Edit>Create>Marker Ctrl+m Format>Radix>Octal Ctrl+Shift+O View>Center Alt+c View>CallstackInWindow Ctrl+k Edit>SelectAll Ctrl+a File>OpenDatabase Ctrl+o Edit>Redo Ctrl+y View>ExpandSequenceTime>AtCursor Alt+x Format>Radix>Binary Ctrl+Shift+B ScrollUp {Up arrow} File>CloseWindow Ctrl+Shift+w ScrollRight {Right arrow} View>Zoom>FullX Alt+= Edit>Create>Bus Ctrl+b Explore>NextEdge Ctrl+\] View>Zoom>Cursor-Baseline Alt+z View>Zoom>OutX Alt+o Edit>GoToLine Ctrl+g View>Zoom>Fit Alt+= View>Zoom>OutX_widget o View>CallstackUp {Ctrl+Up arrow} View>Bookmarks>Add Ctrl+b View>ShowValues Ctrl+s Simulation>Next F6 Format>Radix>Hexadecimal Ctrl+Shift+H Edit>Create>MarkerAtCursor Ctrl+Shift+M View>Zoom>InX Alt+i View>Zoom>Out Alt+o Edit>TextSearch Ctrl+f Edit>Paste Ctrl+v Format>Signed Ctrl+Shift+S View>CollapseSequenceTime>AtCursor Alt+s View>Zoom>InX_widget i Format>Radix>ASCII Ctrl+Shift+A Explore>PreviousEdge {Ctrl+[} Simulation>Step F5 BottomOfPage End}
+preferences set plugin-enable-interleaveandcompare 0
+preferences set txe-navigate-waveform-next-child 1
+preferences set vhdl-colors {H #00ffff L #00ffff 0 {} X #ff0000 - {} 1 {} U #9900ff Z #ff9900 W #ff0000}
+preferences set txe-locate-scroll-x 1
+preferences set txe-locate-scroll-y 1
+preferences set txe-locate-pop-waveform 1
+preferences set whats-new-dont-show-at-startup 1
+
+#
+# Simulator
+#
+database require simulator -hints {
+	simulator "ncsim -gui -cdslib /informatik2/students/home/2regenth/Mikrorechner/VHDL/cds.lib -logfile ncsim.log -errormax 15 -status work.proctst:testbench -input restore.tcl"
+}
+
+#
+# Mnemonic Maps
+#
+mmap new -reuse -name {Boolean as Logic} -radix %b -contents {{%c=FALSE -edgepriority 1 -shape low}
+{%c=TRUE -edgepriority 1 -shape high}}
+mmap new -reuse -name {Example Map} -radix %x -contents {{%b=11???? -bgcolor orange -label REG:%x -linecolor yellow -shape bus}
+{%x=1F -bgcolor red -label ERROR -linecolor white -shape EVENT}
+{%x=2C -bgcolor red -label ERROR -linecolor white -shape EVENT}
+{%x=* -label %x -linecolor gray -shape bus}}
+
+#
+# Design Browser windows
+#
+if {[catch {window new WatchList -name "Design Browser 1" -geometry 958x558+0+31}] != ""} {
+    window geometry "Design Browser 1" 958x558+0+31
+}
+window target "Design Browser 1" on
+browser using {Design Browser 1}
+browser set -scope [subst  {simulator::[format {:pipeProcI:RF1}]} ]
+browser set \
+    -signalsort name
+browser yview see [subst  {simulator::[format {:pipeProcI:RF1}]} ]
+browser timecontrol set -lock 0
+
+#
+# Waveform windows
+#
+if {[catch {window new WaveWindow -name "Waveform 1" -geometry 1920x1147+0+31}] != ""} {
+    window geometry "Waveform 1" 1920x1147+0+31
+}
+window target "Waveform 1" on
+waveform using {Waveform 1}
+waveform sidebar visibility partial
+waveform set \
+    -primarycursor TimeA \
+    -signalnames name \
+    -signalwidth 175 \
+    -units fs \
+    -valuewidth 120
+waveform baseline set -time 0
+
+set id [waveform add -signals [subst  {
+	{simulator::[format {:clk}]}
+	{simulator::[format {:dAddr}]}
+	{simulator::[format {:Data}]}
+	{simulator::[format {:dBus}]}
+	{simulator::[format {:dData}]}
+	{simulator::[format {:dnOE}]}
+	{simulator::[format {:dnWE}]}
+	} ]]
+set id [waveform add -signals [subst  {
+	{simulator::[format {:iAddr}]}
+	} ]]
+waveform format $id -radix %d
+set id [waveform add -signals [subst  {
+	{simulator::[format {:iData}]}
+	} ]]
+waveform hierarchy collapse $id
+set id [waveform add -signals [subst  {
+	{simulator::[format {:memAdress}]}
+	{simulator::[format {:memData}]}
+	{simulator::[format {:nRst}]}
+	{simulator::[format {:pipeProcI:PCValue}]}
+	{simulator::[format {:pipeProcI:EX_ALU}]}
+	{simulator::[format {:pipeProcI:EX_FLAG}]}
+	{simulator::[format {:pipeProcI:EX_IR}]}
+	} ]]
+set id [waveform add -signals [subst  {
+	{simulator::[format {:pipeProcI:EX_OPA}]}
+	} ]]
+waveform format $id -radix %d
+set id [waveform add -signals [subst  {
+	{simulator::[format {:pipeProcI:EX_PC}]}
+	{simulator::[format {:pipeProcI:ID_IR}]}
+	} ]]
+set id [waveform add -signals [subst  {
+	{simulator::[format {:pipeProcI:ID_OPA}]}
+	} ]]
+waveform format $id -radix %d
+set id [waveform add -signals [subst  {
+	{simulator::[format {:pipeProcI:ID_OPB}]}
+	{simulator::[format {:pipeProcI:ID_PC}]}
+	{simulator::[format {:pipeProcI:IF_IR}]}
+	{simulator::[format {:pipeProcI:IF_PC}]}
+	{simulator::[format {:pipeProcI:MEM_ALU}]}
+	} ]]
+set id [waveform add -signals [subst  {
+	{simulator::[format {:pipeProcI:MEM_DATA}]}
+	} ]]
+waveform format $id -radix %d
+set id [waveform add -signals [subst  {
+	{simulator::[format {:pipeProcI:MEM_IR}]}
+	{simulator::[format {:pipeProcI:RF1:Registers}]}
+	} ]]
+
+waveform xview limits 0 412820518fs
+
+#
+# Waveform Window Links
+#
+
+#
+# Console windows
+#
+console set -windowname Console
+window geometry Console 958x558+0+615
+
+#
+# Layout selection
+#
+

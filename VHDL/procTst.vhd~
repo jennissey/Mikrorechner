@@ -26,6 +26,7 @@ architecture testbench of procTst is
   signal iData, dData	: std_logic_vector(31 downto 0);
   signal iCtrl, dCtrl	: fileIOty;
   signal Data, memData, IR, memAdress, PCout : signed(31 downto 0);
+  signal dBus : std_logic_vector (31 downto 0);
 
 component Pipeline is
 port	( clk, nRes		: in	std_logic;
@@ -55,8 +56,9 @@ begin
 					nWE	=> dnWE,
 					nOE	=> dnOE,
 					addr	=> std_logic_vector(memAdress(7 downto 0)),
-					data	=> std_logic_vector(memData),
+					data	=> dBus,
 					fileIO	=> dCtrl);
+dBus <= DATA when dnWE = '1' else (others => 'Z');
 
   -- pipe processor	------------------------------------------------------
   pipeProcI: Pipeline	port map    (	clk		=> clk,
@@ -66,7 +68,7 @@ begin
 					dnWE		=> dnWE,
 					dnOE		=> dnOE,
 					memAddress	=> dAddr,
-					memData		=> dData);
+					memData		=> dBus);
 
 
   -- stimuli		------------------------------------------------------
