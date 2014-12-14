@@ -1,4 +1,4 @@
--- ID.vhd
+-- Registerbank.vhd
 --
 -- entity		RF	- Register File	
 -- architecture		behave	- lesen und schreiben von Registern
@@ -7,6 +7,8 @@ library ieee;
 use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
 use Work.CONSTANT_DEFINITIONS.all;
+
+--Mäder sagt, hier nichts mehr ändern
 
 -- Register File entity
 entity RF is

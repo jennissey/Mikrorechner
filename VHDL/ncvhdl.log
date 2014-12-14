@@ -1,4 +1,49 @@
 ncvhdl(64): 13.10-s005: (c) Copyright 1995-2013 Cadence Design Systems, Inc.
-ncvhdl_p: Memory Usage - 11.5M program + 14.3M data = 25.8M total
-ncvhdl_cg: Memory Usage - 8.8M program + 12.5M data = 21.3M total
-ncvhdl: CPU Usage - 0.0s system + 0.0s user = 0.1s total (0.1s, 36.9% cpu)
+		if IR(5) = '1'  then
+		               |
+ncvhdl_p: *E,MISGEN (/informatik2/students/home/2kuffel/mikrorechner/Mikrorechner-master/VHDL/ID.vhdl,42|17): expecting the reserved word 'GENERATE' [9.7].
+		case IR(5 downto 0) is 
+		   |
+ncvhdl_p: *E,UNKCCS (/informatik2/students/home/2kuffel/mikrorechner/Mikrorechner-master/VHDL/ID.vhdl,44|5): unknown concurrent statement [9].
+			R2 <= unsigned(IR(15 downto 11));
+			                                  |
+ncvhdl_p: *E,EXPEND (/informatik2/students/home/2kuffel/mikrorechner/Mikrorechner-master/VHDL/ID.vhdl,43|37): expecting the reserved word 'END' [1.2].
+		case IR(5 downto 0) is 
+		      |
+ncvhdl_p: *E,ARCNMM (/informatik2/students/home/2kuffel/mikrorechner/Mikrorechner-master/VHDL/ID.vhdl,44|8): architecture body identifier mismatch (BEHAVE/IR) [1.2].
+		case IR(5 downto 0) is 
+		       |
+ncvhdl_p: *E,EXPSMI (/informatik2/students/home/2kuffel/mikrorechner/Mikrorechner-master/VHDL/ID.vhdl,44|9): expecting a semicolon (';') [1.2].
+		case IR(5 downto 0) is 
+		                       |
+ncvhdl_p: *E,EXPBEG (/informatik2/students/home/2kuffel/mikrorechner/Mikrorechner-master/VHDL/ID.vhdl,44|25): expecting the reserved word 'BEGIN' [1.2].
+		case IR(5 downto 0) is 
+		                       |
+ncvhdl_p: *E,EXPEND (/informatik2/students/home/2kuffel/mikrorechner/Mikrorechner-master/VHDL/ID.vhdl,44|25): expecting the reserved word 'END' [1.2].
+			when opcADDI | opcSUBI | opcORI | opcSHLI | opcSHRAI | opcSHRLI | opcLOAD => 
+			           |
+ncvhdl_p: *E,ARCNMM (/informatik2/students/home/2kuffel/mikrorechner/Mikrorechner-master/VHDL/ID.vhdl,46|14): architecture body identifier mismatch (BEHAVE/OPCADDI) [1.2].
+			when opcADDI | opcSUBI | opcORI | opcSHLI | opcSHRAI | opcSHRLI | opcLOAD => 
+			             |
+ncvhdl_p: *E,EXPSMI (/informatik2/students/home/2kuffel/mikrorechner/Mikrorechner-master/VHDL/ID.vhdl,46|16): expecting a semicolon (';') [1.2].
+			when opcADDI | opcSUBI | opcORI | opcSHLI | opcSHRAI | opcSHRLI | opcLOAD => 
+			                     |
+ncvhdl_p: *E,ARCNMM (/informatik2/students/home/2kuffel/mikrorechner/Mikrorechner-master/VHDL/ID.vhdl,46|24): architecture body identifier mismatch (BEHAVE/OPCSUBI) [1.2].
+			when opcADDI | opcSUBI | opcORI | opcSHLI | opcSHRAI | opcSHRLI | opcLOAD => 
+			                       |
+ncvhdl_p: *E,EXPSMI (/informatik2/students/home/2kuffel/mikrorechner/Mikrorechner-master/VHDL/ID.vhdl,46|26): expecting a semicolon (';') [1.2].
+			when opcADDI | opcSUBI | opcORI | opcSHLI | opcSHRAI | opcSHRLI | opcLOAD => 
+			                              |
+ncvhdl_p: *E,ARCNMM (/informatik2/students/home/2kuffel/mikrorechner/Mikrorechner-master/VHDL/ID.vhdl,46|33): architecture body identifier mismatch (BEHAVE/OPCORI) [1.2].
+			when opcADDI | opcSUBI | opcORI | opcSHLI | opcSHRAI | opcSHRLI | opcLOAD => 
+			                                |
+ncvhdl_p: *E,EXPSMI (/informatik2/students/home/2kuffel/mikrorechner/Mikrorechner-master/VHDL/ID.vhdl,46|35): expecting a semicolon (';') [1.2].
+			when opcADDI | opcSUBI | opcORI | opcSHLI | opcSHRAI | opcSHRLI | opcLOAD => 
+			                                        |
+ncvhdl_p: *E,ARCNMM (/informatik2/students/home/2kuffel/mikrorechner/Mikrorechner-master/VHDL/ID.vhdl,46|43): architecture body identifier mismatch (BEHAVE/OPCSHLI) [1.2].
+			when opcADDI | opcSUBI | opcORI | opcSHLI | opcSHRAI | opcSHRLI | opcLOAD => 
+			                                          |
+ncvhdl_p: *E,EXPSMI (/informatik2/students/home/2kuffel/mikrorechner/Mikrorechner-master/VHDL/ID.vhdl,46|45): expecting a semicolon (';') [1.2].
+ncvhdl_p: *F,MAXERR: maximum error count reached (15).
+ncvhdl_p: Memory Usage - 11.5M program + 15.3M data = 26.8M total
+ncvhdl: CPU Usage - 0.0s system + 0.0s user = 0.0s total (0.2s, 13.9% cpu)

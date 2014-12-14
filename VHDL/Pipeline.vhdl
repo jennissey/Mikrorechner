@@ -11,7 +11,7 @@ use Work.CONSTANT_DEFINITIONS.all;
 entity Pipeline is
 port	( clk, nRes				: in	std_logic;
 	  IR, DATA				: in	signed(31 downto 0);
-	  memAddress, memData, PCout	: out	signed(31 downto 0);
+	  memAddress, memData, PCout		: out	signed(31 downto 0);
 	  dnWE, dnOE				: out	std_logic);
 end entity Pipeline;
 
@@ -19,6 +19,7 @@ architecture structure of Pipeline is
 
 signal IF_IR, IF_PC, PCValue, PCValueNew, PCr		: signed(31 downto 0);
 signal ID_PC, ID_IR, ID_OPA, ID_OPB				: signed(31 downto 0);
+--Adressen in der Registerbank von den Operanden R1 = R2 op R3
 signal R1, R2, R3						: unsigned(4 downto 0);
 signal EX_IR, EX_PC						: signed(31 downto 0);
 signal EX_ALU, EX_OPA, aluOut				: signed(31 downto 0);
@@ -26,6 +27,7 @@ signal EX_FLAG, RegisterFlag					: std_logic;
 signal MEM_IR, MEM_ALU, MEM_DATA, RegisterWriteDATA	: signed(31 downto 0);
 signal opA, opB						: signed(31 downto 0);
 signal writeEnable						: std_logic;
+--Werte der Operanden 
 signal R2Value, R3Value					: signed(31 downto 0);
 
 begin
@@ -34,6 +36,7 @@ PCout <= PCValue;
 
 PCValueNew <= PCValue + 1;
 
+-- R2 und R3 holen, R1 kommt später bei ME
 IF_Register: process (clk, nRes) is
 begin
 	if nRes = '0' then
@@ -45,17 +48,19 @@ begin
 		IF_PC	<= PCValueNew;
 		IF_IR	<= IR;
 
-		if IR(5) = '1'  then
+		--wenn Immediate Wert
+		if IF_IR(5) = '1'  then
+			R2 <= unsigned(IR(15 downto 11));
+		--wenn kein Immediate Wert	
+		else
 			R2 <= unsigned(IR(15 downto 11));
 			R3 <= unsigned(IR(20 downto 16));
-		else
-			R2 <= unsigned(IR(10 downto 6));
-			R3 <= unsigned(IR(15 downto 11));
 		end if;
 		
 	end if;
 end process IF_Register;
 
+--Decodier-Phase der Pipeline
 ID_Register: process (clk, nRes) is
 begin
 	if nRes = '0' then
@@ -65,9 +70,34 @@ begin
 	elsif rising_edge(clk)	then
 		ID_PC	<= IF_PC;
 		ID_IR	<= IF_IR;
+		--R2Value und R3Value kommen von der Registerbank
 		ID_OPA <= R2Value;
+		--R3Value könnte auch Immediate sein, dann muss er aus dem Befehl geholt werden
 		ID_OPB <= R3Value;
+
+
+	    --wenn Immediate Wert; kann signed sein, daher auffüllen mit IR(31) auf 32 bit
+		if IF_IR(5) = '1'  then
+		case IR(5 downto 0) is 
+			-- R1, R2 und Imm
+			when opcADDI | opcSUBI | opcORI | opcSHLI | opcSHRAI | opcSHRLI | opcLOAD => 
+				R3Value <= IR(31) & IR(31) & IR(31) & IR(31) & IR(31) &IR(31) &IR(31) &IR(31) &IR(31) &IR(31) &IR(31) &IR(31) &IR(31) &IR(31) &IR(31) &IR(31) & unsigned(IF_IR(31 downto 16));
+			-- R1 und Imm
+			when opcCEQI | opcCLTU | opcCGTU | opcCGTSI | opcMOVI 			  => 
+				R3Value <= IR(31) & IR(31) & IR(31) & IR(31) & IR(31) &IR(31)&IR(31) & IR(31) & IR(31) & IR(31) & IR(31) & unsigned(IF_IR(31 downto 11));
+			-- nur Imm
+	 		when opcBRR | opcJMPR                                                           => 
+				R3Value <= IR(31) & IR(31) & IR(31) & IR(31) & IR(31) &IR(31) & unsigned(IF_IR(31 downto  6));
+			--muss bei case vorkommen
+			when others => null;
+		end case;
+		end if;
+
+
 	end if;
+
+
+
 end process ID_Register;
 
 EX_Register: process (clk, nRes) is
@@ -149,6 +179,7 @@ begin
 			if RegisterFlag = '1' then
 				PCr	<= EX_ALU;
 			end if;
+		when opcHALT => PCr <= PCValueNew - 1;
 		when others => null;
 	end case;
 

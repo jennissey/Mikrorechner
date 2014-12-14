@@ -6,7 +6,7 @@ ncsim>
 ncsim> source /informatik/isr/tams/software/cds/incisive13.1/tools/inca/files/ncsimrc
 ncsim> database -open waves -into waves.shm -default
 Created default SHM database waves
-ncsim> probe -create -shm :clk :dAddr :Data :dBus :dData :dnOE :dnWE :iAddr :iData :memAdress :memData :nRst :pipeProcI:PCValue :pipeProcI:EX_ALU :pipeProcI:EX_FLAG :pipeProcI:EX_IR :pipeProcI:EX_OPA :pipeProcI:EX_PC :pipeProcI:ID_IR :pipeProcI:ID_OPA :pipeProcI:ID_OPB :pipeProcI:ID_PC :pipeProcI:IF_IR :pipeProcI:IF_PC :pipeProcI:MEM_ALU :pipeProcI:MEM_DATA :pipeProcI:MEM_IR
+ncsim> probe -create -shm :clk :dAddr :Data :dBus :dData :dnOE :dnWE :iAddr :iData :memAdress :memData :nRst :pipeProcI:PCValue :pipeProcI:EX_ALU :pipeProcI:EX_FLAG :pipeProcI:EX_IR :pipeProcI:EX_OPA :pipeProcI:EX_PC :pipeProcI:ID_IR :pipeProcI:ID_OPA :pipeProcI:ID_OPB :pipeProcI:ID_PC :pipeProcI:IF_IR :pipeProcI:IF_PC :pipeProcI:MEM_ALU :pipeProcI:MEM_DATA :pipeProcI:MEM_IR :pipeProcI:RF1:Registers
 Created probe 1
 ncsim> run
 ASSERT/WARNING (time 0 FS) from package ieee.NUMERIC_STD, this builtin function called  from process :pipeProcI:RF1:$PROCESS_001 (architecture work.RF:behave)
@@ -75,11 +75,13 @@ ASSERT/WARNING (time 280 NS) from package ieee.NUMERIC_STD, this builtin functio
 Built-in conversion function argument contains ('U', 'X', 'W', 'Z', '-') in an operand (treated as '0').
 ASSERT/WARNING (time 340 NS) from package ieee.NUMERIC_STD, this builtin function called  from process :pipeProcI:RF1:write_P (architecture work.RF:behave)
 Built-in conversion function argument contains ('U', 'X', 'W', 'Z', '-') in an operand (treated as '0').
-ASSERT/WARNING (time 360 NS) from process :dataMemI:sramP (architecture work.sram:simModel)
-SRAM: addr - X value
-ASSERT/WARNING (time 360 NS) from package ieee.NUMERIC_STD, this builtin function called  from process :dataMemI:sramP (architecture work.sram:simModel)
-Built-in conversion function argument contains ('U', 'X', 'W', 'Z', '-') in an operand (treated as '0').
 ASSERT/WARNING (time 420 NS) from package ieee.NUMERIC_STD, this builtin function called  from process :pipeProcI:RF1:write_P (architecture work.RF:behave)
+Built-in conversion function argument contains ('U', 'X', 'W', 'Z', '-') in an operand (treated as '0').
+ASSERT/WARNING (time 440 NS) from process :dataMemI:sramP (architecture work.sram:simModel)
+SRAM: addr - X value
+ASSERT/WARNING (time 440 NS) from package ieee.NUMERIC_STD, this builtin function called  from process :dataMemI:sramP (architecture work.sram:simModel)
+Built-in conversion function argument contains ('U', 'X', 'W', 'Z', '-') in an operand (treated as '0').
+ASSERT/WARNING (time 460 NS) from package ieee.NUMERIC_STD, this builtin function called  from process :dataMemI:sramP (architecture work.sram:simModel)
 Built-in conversion function argument contains ('U', 'X', 'W', 'Z', '-') in an operand (treated as '0').
 ASSERT/WARNING (time 520 NS) from process :dataMemI:sramP (architecture work.sram:simModel)
 SRAM: addr - X value
@@ -87,102 +89,9 @@ ASSERT/WARNING (time 520 NS) from package ieee.NUMERIC_STD, this builtin functio
 Built-in conversion function argument contains ('U', 'X', 'W', 'Z', '-') in an operand (treated as '0').
 ASSERT/WARNING (time 540 NS) from package ieee.NUMERIC_STD, this builtin function called  from process :dataMemI:sramP (architecture work.sram:simModel)
 Built-in conversion function argument contains ('U', 'X', 'W', 'Z', '-') in an operand (treated as '0').
-ASSERT/WARNING (time 600 NS) from process :dataMemI:sramP (architecture work.sram:simModel)
-SRAM: addr - X value
-ASSERT/WARNING (time 600 NS) from package ieee.NUMERIC_STD, this builtin function called  from process :dataMemI:sramP (architecture work.sram:simModel)
-Built-in conversion function argument contains ('U', 'X', 'W', 'Z', '-') in an operand (treated as '0').
-ASSERT/WARNING (time 660 NS) from package ieee.NUMERIC_STD, this builtin function called  from process :pipeProcI:RF1:write_P (architecture work.RF:behave)
-Built-in conversion function argument contains ('U', 'X', 'W', 'Z', '-') in an operand (treated as '0').
-ASSERT/WARNING (time 680 NS) from process :dataMemI:sramP (architecture work.sram:simModel)
-SRAM: addr - X value
-ASSERT/WARNING (time 680 NS) from package ieee.NUMERIC_STD, this builtin function called  from process :dataMemI:sramP (architecture work.sram:simModel)
-Built-in conversion function argument contains ('U', 'X', 'W', 'Z', '-') in an operand (treated as '0').
-ASSERT/WARNING (time 740 NS) from package ieee.NUMERIC_STD, this builtin function called  from process :pipeProcI:RF1:write_P (architecture work.RF:behave)
-Built-in conversion function argument contains ('U', 'X', 'W', 'Z', '-') in an operand (treated as '0').
-ASSERT/WARNING (time 760 NS) from package ieee.NUMERIC_STD, this builtin function called  from process :pipeProcI:ALU1:$PROCESS_003 (architecture work.ALU:behave)
-Built-in relational argument contains a ('U', 'X', 'W', 'Z', '-') in an operand.
-ASSERT/WARNING (time 760 NS) from process :dataMemI:sramP (architecture work.sram:simModel)
-SRAM: addr - X value
-ASSERT/WARNING (time 760 NS) from package ieee.NUMERIC_STD, this builtin function called  from process :dataMemI:sramP (architecture work.sram:simModel)
-Built-in conversion function argument contains ('U', 'X', 'W', 'Z', '-') in an operand (treated as '0').
-ASSERT/WARNING (time 760 NS) from package ieee.NUMERIC_STD, this builtin function called  from process :pipeProcI:ALU1:$PROCESS_003 (architecture work.ALU:behave)
-Built-in relational argument contains a ('U', 'X', 'W', 'Z', '-') in an operand.
-ASSERT/WARNING (time 760 NS) from package ieee.NUMERIC_STD, this builtin function called  from process :dataMemI:sramP (architecture work.sram:simModel)
-Built-in conversion function argument contains ('U', 'X', 'W', 'Z', '-') in an operand (treated as '0').
-ASSERT/WARNING (time 840 NS) from process :dataMemI:sramP (architecture work.sram:simModel)
-SRAM: addr - X value
-ASSERT/WARNING (time 840 NS) from package ieee.NUMERIC_STD, this builtin function called  from process :dataMemI:sramP (architecture work.sram:simModel)
-Built-in conversion function argument contains ('U', 'X', 'W', 'Z', '-') in an operand (treated as '0').
-ASSERT/WARNING (time 840 NS) from package ieee.NUMERIC_STD, this builtin function called  from process :dataMemI:sramP (architecture work.sram:simModel)
-Built-in conversion function argument contains ('U', 'X', 'W', 'Z', '-') in an operand (treated as '0').
-ASSERT/WARNING (time 920 NS) from package ieee.NUMERIC_STD, this builtin function called  from process :pipeProcI:ALU1:$PROCESS_003 (architecture work.ALU:behave)
-Built-in relational argument contains a ('U', 'X', 'W', 'Z', '-') in an operand.
-ASSERT/WARNING (time 920 NS) from package ieee.NUMERIC_STD, this builtin function called  from process :pipeProcI:ALU1:$PROCESS_003 (architecture work.ALU:behave)
-Built-in relational argument contains a ('U', 'X', 'W', 'Z', '-') in an operand.
-ASSERT/WARNING (time 1 US) from process :dataMemI:sramP (architecture work.sram:simModel)
-SRAM: addr - X value
-ASSERT/WARNING (time 1 US) from package ieee.NUMERIC_STD, this builtin function called  from process :dataMemI:sramP (architecture work.sram:simModel)
-Built-in conversion function argument contains ('U', 'X', 'W', 'Z', '-') in an operand (treated as '0').
-ASSERT/WARNING (time 1 US) from package ieee.NUMERIC_STD, this builtin function called  from process :dataMemI:sramP (architecture work.sram:simModel)
-Built-in conversion function argument contains ('U', 'X', 'W', 'Z', '-') in an operand (treated as '0').
-ASSERT/WARNING (time 1080 NS) from process :dataMemI:sramP (architecture work.sram:simModel)
-SRAM: addr - X value
-ASSERT/WARNING (time 1080 NS) from package ieee.NUMERIC_STD, this builtin function called  from process :dataMemI:sramP (architecture work.sram:simModel)
-Built-in conversion function argument contains ('U', 'X', 'W', 'Z', '-') in an operand (treated as '0').
-ASSERT/WARNING (time 1080 NS) from package ieee.NUMERIC_STD, this builtin function called  from process :dataMemI:sramP (architecture work.sram:simModel)
-Built-in conversion function argument contains ('U', 'X', 'W', 'Z', '-') in an operand (treated as '0').
-ASSERT/WARNING (time 1100 NS) from package ieee.NUMERIC_STD, this builtin function called  from process :dataMemI:sramP (architecture work.sram:simModel)
-Built-in conversion function argument contains ('U', 'X', 'W', 'Z', '-') in an operand (treated as '0').
-ASSERT/WARNING (time 1160 NS) from process :dataMemI:sramP (architecture work.sram:simModel)
-SRAM: addr - X value
-ASSERT/WARNING (time 1160 NS) from package ieee.NUMERIC_STD, this builtin function called  from process :dataMemI:sramP (architecture work.sram:simModel)
-Built-in conversion function argument contains ('U', 'X', 'W', 'Z', '-') in an operand (treated as '0').
-ASSERT/WARNING (time 1160 NS) from package ieee.NUMERIC_STD, this builtin function called  from process :dataMemI:sramP (architecture work.sram:simModel)
-Built-in conversion function argument contains ('U', 'X', 'W', 'Z', '-') in an operand (treated as '0').
-ASSERT/WARNING (time 1220 NS) from package ieee.NUMERIC_STD, this builtin function called  from process :pipeProcI:RF1:write_P (architecture work.RF:behave)
-Built-in conversion function argument contains ('U', 'X', 'W', 'Z', '-') in an operand (treated as '0').
-ASSERT/WARNING (time 1300 NS) from package ieee.NUMERIC_STD, this builtin function called  from process :pipeProcI:RF1:write_P (architecture work.RF:behave)
-Built-in conversion function argument contains ('U', 'X', 'W', 'Z', '-') in an operand (treated as '0').
-ASSERT/WARNING (time 1320 NS) from process :dataMemI:sramP (architecture work.sram:simModel)
-SRAM: addr - X value
-ASSERT/WARNING (time 1320 NS) from package ieee.NUMERIC_STD, this builtin function called  from process :dataMemI:sramP (architecture work.sram:simModel)
-Built-in conversion function argument contains ('U', 'X', 'W', 'Z', '-') in an operand (treated as '0').
-ASSERT/WARNING (time 1320 NS) from package ieee.NUMERIC_STD, this builtin function called  from process :dataMemI:sramP (architecture work.sram:simModel)
-Built-in conversion function argument contains ('U', 'X', 'W', 'Z', '-') in an operand (treated as '0').
-ASSERT/WARNING (time 1380 NS) from package ieee.NUMERIC_STD, this builtin function called  from process :pipeProcI:RF1:write_P (architecture work.RF:behave)
-Built-in conversion function argument contains ('U', 'X', 'W', 'Z', '-') in an operand (treated as '0').
-ASSERT/WARNING (time 1400 NS) from process :dataMemI:sramP (architecture work.sram:simModel)
-SRAM: addr - X value
-ASSERT/WARNING (time 1400 NS) from package ieee.NUMERIC_STD, this builtin function called  from process :dataMemI:sramP (architecture work.sram:simModel)
-Built-in conversion function argument contains ('U', 'X', 'W', 'Z', '-') in an operand (treated as '0').
-ASSERT/WARNING (time 1400 NS) from package ieee.NUMERIC_STD, this builtin function called  from process :dataMemI:sramP (architecture work.sram:simModel)
-Built-in conversion function argument contains ('U', 'X', 'W', 'Z', '-') in an operand (treated as '0').
-ASSERT/WARNING (time 1440 NS) from package ieee.NUMERIC_STD, this builtin function called  from process :pipeProcI:$PROCESS_001 (architecture work.Pipeline:structure)
-Built-in function result set to 'X' due to a ('U', 'X', 'W', 'Z', '-') in an operand.
-ASSERT/WARNING (time 1440 NS) from process :instMemI:sramP (architecture work.sram:simModel)
-SRAM: addr - X value
-ASSERT/WARNING (time 1440 NS) from package ieee.NUMERIC_STD, this builtin function called  from process :instMemI:sramP (architecture work.sram:simModel)
-Built-in conversion function argument contains ('U', 'X', 'W', 'Z', '-') in an operand (treated as '0').
-ASSERT/WARNING (time 1440 NS) from package ieee.NUMERIC_STD, this builtin function called  from process :instMemI:sramP (architecture work.sram:simModel)
-Built-in conversion function argument contains ('U', 'X', 'W', 'Z', '-') in an operand (treated as '0').
-ASSERT/WARNING (time 1460 NS) from package ieee.NUMERIC_STD, this builtin function called  from process :pipeProcI:$PROCESS_001 (architecture work.Pipeline:structure)
-Built-in function result set to 'X' due to a ('U', 'X', 'W', 'Z', '-') in an operand.
-ASSERT/WARNING (time 1460 NS) from process :instMemI:sramP (architecture work.sram:simModel)
-SRAM: addr - X value
-ASSERT/WARNING (time 1460 NS) from package ieee.NUMERIC_STD, this builtin function called  from process :instMemI:sramP (architecture work.sram:simModel)
-Built-in conversion function argument contains ('U', 'X', 'W', 'Z', '-') in an operand (treated as '0').
-ASSERT/WARNING (time 1540 NS) from package ieee.NUMERIC_STD, this builtin function called  from process :pipeProcI:RF1:write_P (architecture work.RF:behave)
-Built-in conversion function argument contains ('U', 'X', 'W', 'Z', '-') in an operand (treated as '0').
-ASSERT/WARNING (time 1560 NS) from package ieee.NUMERIC_STD, this builtin function called  from process :pipeProcI:RF1:write_P (architecture work.RF:behave)
-Built-in conversion function argument contains ('U', 'X', 'W', 'Z', '-') in an operand (treated as '0').
-ASSERT/WARNING (time 1580 NS) from package ieee.NUMERIC_STD, this builtin function called  from process :pipeProcI:RF1:write_P (architecture work.RF:behave)
-Built-in conversion function argument contains ('U', 'X', 'W', 'Z', '-') in an operand (treated as '0').
-ASSERT/WARNING (time 1600 NS) from package ieee.NUMERIC_STD, this builtin function called  from process :pipeProcI:RF1:write_P (architecture work.RF:behave)
-Built-in conversion function argument contains ('U', 'X', 'W', 'Z', '-') in an operand (treated as '0').
-ncsim: *W,RNQUIE: Simulation is complete.
-ncsim> probe -create -shm :pipeProcI:RF1:Registers
-Created probe 2
-ncsim> ^C
-ncsim> exit
-ncsim: Memory Usage - 27.6M program + 62.9M data = 90.6M total
-ncsim: CPU Usage - 18.4s system + 12.6s user = 31.0s total (531.6s, 5.8% cpu)
+ncsim: *E,TRASMM: array shape mismatch - no matching element.
+          File: ./Pipeline.vhdl, line = 55, pos = 141
+         Scope: :pipeProcI:IF_Register
+          Time: 580 NS + 0
+
+ncsim> 
