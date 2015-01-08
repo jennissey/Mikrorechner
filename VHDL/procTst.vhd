@@ -18,7 +18,7 @@ end entity procTst;
 
 -- architecture	--------------------------------------------------------------
 ------------------------------------------------------------------------------
-architecture testbench of procTst is
+architecture tb of procTst is
   signal clk, nRst					: std_logic;
   signal const0, const1					: std_logic;
   signal dnWE, dnOE					: std_logic;
@@ -27,6 +27,7 @@ architecture testbench of procTst is
   signal iCtrl, dCtrl					: fileIOty;
   signal Data, memData, memAdress, PCout 		: signed(31 downto 0);
   signal dBus 						: std_logic_vector (31 downto 0);
+  signal iAddr2, dAddr2					: std_logic_vector(7 downto 0);
 
 component Pipeline is
 port	( clk, nRes				: in	std_logic;
@@ -39,14 +40,16 @@ begin
   const0 <= '0';
   const1 <= '1';
 
+iAddr2 <= std_logic_vector(iAddr(7 downto 0));
+dAddr2 <= std_logic_vector(dAddr(7 downto 0));
   -- memories		------------------------------------------------------
   instMemI: sram	generic map (	addrWd=> 8,
 					dataWd=> 32,
-					fileID	=> "fibonacci.prog")
+					fileID	=> "fib.program")
 			port map    (	nCS	=> const0,
 					nWE	=> const1,
 					nOE	=> const0,
-					addr	=> std_logic_vector(iAddr(7 downto 0)),
+					addr	=> iAddr2,
 					data	=> iData,
 					fileIO	=> iCtrl);
   dataMemI: sram	generic map (	addrWd=> 8,
@@ -55,7 +58,7 @@ begin
 			port map    (	nCS	=> const0,
 					nWE	=> dnWE,
 					nOE	=> dnOE,
-					addr	=> std_logic_vector(dAddr(7 downto 0)),
+					addr	=> dAddr2,
 					data	=> dBus,
 					fileIO	=> dCtrl);
 
@@ -88,6 +91,6 @@ dBus <= std_logic_vector(dData) when dnWE = '0' else (others => 'Z');
     wait;
   end process stiP;
 
-end architecture testbench;
+end architecture tb;
 ------------------------------------------------------------------------------
 -- procTst.vhd	- end
