@@ -5,7 +5,7 @@
 #
 # You can restore this configuration with:
 #
-#      ncsim -cdslib /informatik2/students/home/2regenth/Mikrorechner/VHDL/cds.lib -logfile ncsim.log -errormax 15 -status work.proctst:testbench -input restore.tcl
+#      ncsim -cdslib /informatik2/students/home/2regenth/Mikrorechner/VHDL/cds.lib -logfile ncsim.log -errormax 15 -status work.proctst:tb -input restore.tcl
 #
 
 set tcl_prompt1 {puts -nonewline "ncsim> "}
@@ -49,7 +49,6 @@ alias . run
 alias iprof profile
 alias quit exit
 database -open -shm -into waves.shm waves -default
-probe -create -database waves :clk :dAddr :Data :dBus :dData :dnOE :dnWE :iAddr :iData :memAdress :memData :nRst :pipeProcI:PCValue :pipeProcI:EX_ALU :pipeProcI:EX_FLAG :pipeProcI:EX_IR :pipeProcI:EX_OPA :pipeProcI:EX_PC :pipeProcI:ID_IR :pipeProcI:ID_OPA :pipeProcI:ID_OPB :pipeProcI:ID_PC :pipeProcI:IF_IR :pipeProcI:IF_PC :pipeProcI:MEM_ALU :pipeProcI:MEM_DATA :pipeProcI:MEM_IR
-probe -create -database waves :pipeProcI:RF1:Registers
+probe -create -database waves :clk :nRst :dnWE :dnOE :dAddr :dBus :dData :pipeProcI:memAddress :pipeProcI:memData :pipeProcI:R1 :pipeProcI:R2 :pipeProcI:R2Value :pipeProcI:R3 :pipeProcI:R3Value :pipeProcI:IF_IR :pipeProcI:ID_OPA :pipeProcI:ID_OPB :pipeProcI:ID_IR :pipeProcI:EX_IR :pipeProcI:MEM_IR :pipeProcI:EX_FLAG :pipeProcI:RF1:Registers :dataMemI:data
 
 simvision -input restore.tcl.svcf

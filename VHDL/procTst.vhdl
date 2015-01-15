@@ -12,7 +12,7 @@ use work.sramPkg.all;					--   sram
 ------------------------------------------------------------------------------
 entity procTst is
 generic(clkPeriod	: time		:= 20 ns;	-- clock period
-	clkCycles	: positive	:= 80);		-- clock cycles
+	clkCycles	: positive	:= 80000);		-- clock cycles
 end entity procTst;
 
 

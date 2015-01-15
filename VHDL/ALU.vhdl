@@ -64,7 +64,7 @@ opAunsigned <= unsigned(opA);
 opBunsigned <= unsigned(opB);
 
 with opCode select
-aluOut <=	opA + opB when opcADD | opcADDI | opcJMPR | opcBRR,
+aluOut <=	opA + opB when opcADD | opcADDI | opcJMPR | opcBRR | opcLOAD | opcSTORE,
 		opA - opB when opcSUB | opcSUBI,
 		opA and opB when opcAND | opcANDI,
 		opA or opB when opcOR | opcORI,

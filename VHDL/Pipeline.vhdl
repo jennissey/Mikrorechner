@@ -48,18 +48,17 @@ begin
 		IF_PC	<= PCValueNew;
 		IF_IR	<= IR;
 
-		--wenn Immediate Wert
-		if IF_IR(5) = '1'  then
-			R2 <= unsigned(IR(15 downto 11));
-			if IF_IR(5 downto 0) = opcSTORE then
+		R2 <= unsigned(IR(15 downto 11));
+
+		--wenn Immediate Wert oder Vergleichsoperation
+		if 	IR(5 downto 0) = opcSTORE or IR(5 downto 0) = opcLOAD or  IR(5 downto 0) = opcCEQI or IR(5 downto 0) = opcCLTUI or IR(5 downto 0) = opcCLTSI or 
+			IR(5 downto 0) = opcCGTUI or IR(5 downto 0) = opcCGTSI or IR(5 downto 0) = opcJMPA or IR(5 downto 0) = opcBRA or IR(5 downto 0) = opcCEQ or  
+			IR(5 downto 0) = opcCLTU or IR(5 downto 0) = opcCLTS  or  IR(5 downto 0) = opcCGTU or IR(5 downto 0) = opcCGTS   then
 				R3 <= unsigned(IR(10 downto 6));
-			end if;
 		--wenn kein Immediate Wert	
 		else
-			R2 <= unsigned(IR(15 downto 11));
-			R3 <= unsigned(IR(20 downto 16));
+				R3 <= unsigned(IR(20 downto 16));
 		end if;
-		
 	end if;
 end process IF_Register;
 
@@ -75,17 +74,19 @@ begin
 		ID_IR	<= IF_IR;
 
 		--R2Value und R3Value kommen von der Registerbank
-		if ID_IR(5 downto 0) = 	opcJMPR or ID_IR(5 downto 0) = opcBRR then
-					ID_OPA <= ID_PC;
-					else
-					ID_OPA <= R2Value;
-					end if;
-		
+			
+		if IF_IR(5 downto 0) = opcJMPA or IF_IR(5 downto 0) = opcBRA or IF_IR(5 downto 0) = opcCEQ or IF_IR(5 downto 0) = opcCEQI or IF_IR(5 downto 0) = opcCLTU or IF_IR(5 downto 0) = opcCLTS or IF_IR(5 downto 0) = opcCLTUI or IF_IR(5 downto 0) = opcCLTSI or IF_IR(5 downto 0) = opcCGTU or IF_IR(5 downto 0) = opcCGTS or IF_IR(5 downto 0) = opcCGTUI or IF_IR(5 downto 0) = opcCGTSI then
+			ID_OPA <= R3Value;
+			ID_OPB <= R2Value;
+		else
+			ID_OPA <= R2Value;
+		end if;
+
 		--R3Value könnte auch Immediate sein, dann muss er aus dem Befehl geholt werden, kann signed sein, daher auffüllen mit IR(31) auf 32 bit
 		if IF_IR(0) = '1' or IF_IR(5 downto 0) = opcLOAD then
-			case IR(5 downto 0) is 
+			case IF_IR(5 downto 0) is 
 				-- R1, R2 und Imm
-				when opcADDI | opcSUBI | opcORI | opcSHLI | opcSHRAI | opcSHRLI | opcLOAD => 
+				when opcADDI | opcSUBI | opcORI | opcSHLI | opcSHRAI | opcSHRLI | opcLOAD | opcSTORE => 
 					ID_OPB <= IF_IR(31) & IF_IR(31) & IF_IR(31) & IF_IR(31) & IF_IR(31) & IF_IR(31) & IF_IR(31) & IF_IR(31) & IF_IR(31) & IF_IR(31) & IF_IR(31) & IF_IR(31) & IF_IR(31) & IF_IR(31) & IF_IR(31) & IF_IR(31) & IF_IR(31 downto 16);
 				-- R1 und Imm
 				when opcCEQI | opcCLTUI | opcCGTUI | opcCGTSI | opcMOVI => 
@@ -93,12 +94,16 @@ begin
 				-- nur Imm
 	 			when opcBRR | opcJMPR => 
 					ID_OPB <= IF_IR(31) & IF_IR(31) & IF_IR(31) & IF_IR(31) & IF_IR(31) & IF_IR(31) & IF_IR(31 downto  6);
+					ID_OPA <= ID_PC;
 				--muss bei case vorkommen
 				when others => null;
 			end case;
-			ID_MEMADRESS <= R3Value;
 		else
-			ID_OPB <= R3Value ;
+			ID_OPB <= R3Value;
+		end if;
+		
+		if IF_IR(5 downto 0) = opcSTORE or IF_IR(5 downto 0) = opcLOAD then
+			memData <= R3Value;
 		end if;
 	end if;
 end process ID_Register;
@@ -121,13 +126,11 @@ begin
 		if ID_IR(5 downto 0) = opcSTORE then
 			dnWE	<= '0';
 			dnOE	<= '1';
-
-			memData <= aluOut;
 		else
 			dnWE	<= '1';
 			dnOE	<= '0';
 		end if;
-		EX_MEMADRESS <= ID_MEMADRESS;
+		EX_MEMADRESS <= aluOut;
 	end if;
 end process EX_Register;
 
@@ -141,6 +144,7 @@ begin
 		MEM_IR	<= EX_IR;
 		MEM_ALU	<= EX_ALU;
 		MEM_DATA	<= DATA;
+		R1 <= unsigned(EX_IR(10 downto 6));
 	end if;
 end process MEM_Register;
 
@@ -148,6 +152,7 @@ end process MEM_Register;
 RegisterWriteDATA <= MEM_DATA when 
 					MEM_IR(5 downto 0) = opcLOAD
 			else MEM_ALU;
+
 -- PC Multiplexer
 PC_Multiplexer : process (RegisterFlag, EX_OPA, EX_ALU, EX_IR, PCValueNew) is
 begin

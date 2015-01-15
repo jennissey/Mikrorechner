@@ -43,8 +43,8 @@ use ieee.numeric_std.all;
 
 use std.textio.all;
 -- für ghdl auskommentiert
--- use ieee.std_logic_textio.all;
-use work.std_logic_textio.all;
+use ieee.std_logic_textio.all;
+--use work.std_logic_textio.all;
 use work.sramPkg.all;
 
 entity sram is
