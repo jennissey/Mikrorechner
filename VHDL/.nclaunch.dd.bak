@@ -16,7 +16,7 @@ ToolOption_NCSim { -gui -cdslib /informatik2/students/home/2regenth/Mikrorechner
 ToolOption_NCSdfc {-logfile ncsdfc.log -compile -status} \
 ToolOption_HAL {-logfile hal.log} \
 ToolOption_SimVision {} \
-ToolOption_Update { -force -errormax 15 -cdslib /informatik2/students/home/2regenth/Mikrorechner/VHDL/cds.lib} \
+ToolOption_Update {-errormax 15 -force} \
 ToolOption_SimCompare {} \
 ToolOption_NCBrowse {} \
 ToolOption_HALDefEdit {} \
@@ -34,7 +34,7 @@ ToolOption_NCSim { -gui -cdslib /informatik2/students/home/2regenth/Mikrorechner
 ToolOption_NCSdfc {-logfile ncsdfc.log -compile -status} \
 ToolOption_HAL {-logfile hal.log} \
 ToolOption_SimVision {} \
-ToolOption_Update { -force -errormax 15 -cdslib /informatik2/students/home/2regenth/Mikrorechner/VHDL/cds.lib} \
+ToolOption_Update {-errormax 15 -force} \
 ToolOption_SimCompare {} \
 ToolOption_NCBrowse {} \
 ToolOption_HALDefEdit {} \

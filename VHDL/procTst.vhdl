@@ -12,7 +12,7 @@ use work.sramPkg.all;					--   sram
 ------------------------------------------------------------------------------
 entity procTst is
 generic(clkPeriod	: time		:= 20 ns;	-- clock period
-	clkCycles	: positive	:= 80000);		-- clock cycles
+	clkCycles	: positive	:= 3000);	-- clock cycles
 end entity procTst;
 
 
@@ -88,6 +88,8 @@ dBus <= std_logic_vector(dData) when dnWE = '0' else (others => 'Z');
 	clk <= '0', '1' after clkPeriod/2;
 	wait for clkPeriod;
     end loop;
+    wait for 5*clkPeriod;
+    dCtrl <= dump;
     wait;
   end process stiP;
 

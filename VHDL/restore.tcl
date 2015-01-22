@@ -1,6 +1,6 @@
 
 # NC-Sim Command File
-# TOOL:	ncsim(64)	13.10-s005
+# TOOL:	ncsim(64)	14.10-s004
 #
 #
 # You can restore this configuration with:
@@ -36,19 +36,21 @@ set vlog_code_show_force 0
 set assert_count_attempts 1
 set tcl_all64 false
 set tcl_runerror_exit false
-set assert_report_incompletes 1
+set assert_report_incompletes 0
 set show_force 1
 set force_reset_by_reinvoke 0
 set tcl_relaxed_literal 0
 set probe_exclude_patterns {}
-set probe_packed_limit 16k
-set probe_unpacked_limit 4k
+set probe_packed_limit 4k
+set probe_unpacked_limit 16k
 set assert_internal_msg no
 set svseed 1
+set assert_reporting_mode 0
 alias . run
 alias iprof profile
 alias quit exit
 database -open -shm -into waves.shm waves -default
-probe -create -database waves :clk :nRst :dnWE :dnOE :dAddr :dBus :dData :pipeProcI:memAddress :pipeProcI:memData :pipeProcI:R1 :pipeProcI:R2 :pipeProcI:R2Value :pipeProcI:R3 :pipeProcI:R3Value :pipeProcI:IF_IR :pipeProcI:ID_OPA :pipeProcI:ID_OPB :pipeProcI:ID_IR :pipeProcI:EX_IR :pipeProcI:MEM_IR :pipeProcI:EX_FLAG :pipeProcI:RF1:Registers :dataMemI:data
+probe -create -database waves :clk :nRst :dnWE :dnOE :dAddr :dBus :dData :pipeProcI:memAddress :pipeProcI:memData :pipeProcI:R1 :pipeProcI:R2 :pipeProcI:R2Value :pipeProcI:R3 :pipeProcI:R3Value :pipeProcI:IF_IR :pipeProcI:ID_OPA :pipeProcI:ID_OPB :pipeProcI:ID_IR :pipeProcI:EX_IR :pipeProcI:MEM_IR :pipeProcI:EX_FLAG :pipeProcI:RF1:Registers :dataMemI:data :pipeProcI:MEM_ALU :pipeProcI:RegisterWriteDATA
+probe -create -database waves :pipeProcI:IR
 
 simvision -input restore.tcl.svcf

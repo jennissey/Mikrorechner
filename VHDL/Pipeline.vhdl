@@ -17,18 +17,18 @@ end entity Pipeline;
 
 architecture structure of Pipeline is
 
-signal IF_IR, IF_PC, PCValue, PCValueNew, PCr		: signed(31 downto 0);
-signal ID_PC, ID_IR, ID_OPA, ID_OPB, ID_MEMADRESS		: signed(31 downto 0);
+signal IF_IR, IF_PC, PCValue, PCValueNew, PCr				: signed(31 downto 0);
+signal ID_PC, ID_IR, ID_OPA, ID_OPB, ID_MEMADRESS, ID_MEMDATA	: signed(31 downto 0);
 --Adressen in der Registerbank von den Operanden R1 = R2 op R3
-signal R1, R2, R3						: unsigned(4 downto 0);
-signal EX_IR, EX_PC, EX_MEMADRESS				: signed(31 downto 0);
-signal EX_ALU, EX_OPA, aluOut				: signed(31 downto 0);
-signal EX_FLAG, RegisterFlag					: std_logic;
-signal MEM_IR, MEM_ALU, MEM_DATA, RegisterWriteDATA	: signed(31 downto 0);
-signal opA, opB						: signed(31 downto 0);
-signal writeEnable						: std_logic;
+signal R1, R2, R3								: unsigned(4 downto 0);
+signal EX_IR, EX_PC								: signed(31 downto 0);
+signal EX_ALU, EX_OPA, aluOut						: signed(31 downto 0);
+signal EX_FLAG, RegisterFlag							: std_logic;
+signal MEM_IR, MEM_ALU, MEM_DATA, RegisterWriteDATA			: signed(31 downto 0);
+signal opA, opB								: signed(31 downto 0);
+signal writeEnable								: std_logic;
 --Werte der Operanden 
-signal R2Value, R3Value					: signed(31 downto 0);
+signal R2Value, R3Value							: signed(31 downto 0);
 
 begin
 
@@ -72,39 +72,34 @@ begin
 	elsif rising_edge(clk)	then
 		ID_PC	<= IF_PC;
 		ID_IR	<= IF_IR;
-
-		--R2Value und R3Value kommen von der Registerbank
-			
-		if IF_IR(5 downto 0) = opcJMPA or IF_IR(5 downto 0) = opcBRA or IF_IR(5 downto 0) = opcCEQ or IF_IR(5 downto 0) = opcCEQI or IF_IR(5 downto 0) = opcCLTU or IF_IR(5 downto 0) = opcCLTS or IF_IR(5 downto 0) = opcCLTUI or IF_IR(5 downto 0) = opcCLTSI or IF_IR(5 downto 0) = opcCGTU or IF_IR(5 downto 0) = opcCGTS or IF_IR(5 downto 0) = opcCGTUI or IF_IR(5 downto 0) = opcCGTSI then
-			ID_OPA <= R3Value;
-			ID_OPB <= R2Value;
-		else
-			ID_OPA <= R2Value;
-		end if;
-
-		--R3Value könnte auch Immediate sein, dann muss er aus dem Befehl geholt werden, kann signed sein, daher auffüllen mit IR(31) auf 32 bit
-		if IF_IR(0) = '1' or IF_IR(5 downto 0) = opcLOAD then
-			case IF_IR(5 downto 0) is 
-				-- R1, R2 und Imm
-				when opcADDI | opcSUBI | opcORI | opcSHLI | opcSHRAI | opcSHRLI | opcLOAD | opcSTORE => 
-					ID_OPB <= IF_IR(31) & IF_IR(31) & IF_IR(31) & IF_IR(31) & IF_IR(31) & IF_IR(31) & IF_IR(31) & IF_IR(31) & IF_IR(31) & IF_IR(31) & IF_IR(31) & IF_IR(31) & IF_IR(31) & IF_IR(31) & IF_IR(31) & IF_IR(31) & IF_IR(31 downto 16);
-				-- R1 und Imm
-				when opcCEQI | opcCLTUI | opcCGTUI | opcCGTSI | opcMOVI => 
-					ID_OPB <= IF_IR(31) & IF_IR(31) & IF_IR(31) & IF_IR(31) & IF_IR(31) & IF_IR(31) & IF_IR(31) & IF_IR(31) & IF_IR(31) & IF_IR(31) & IF_IR(31) & IF_IR(31 downto 11);
-				-- nur Imm
-	 			when opcBRR | opcJMPR => 
-					ID_OPB <= IF_IR(31) & IF_IR(31) & IF_IR(31) & IF_IR(31) & IF_IR(31) & IF_IR(31) & IF_IR(31 downto  6);
-					ID_OPA <= ID_PC;
-				--muss bei case vorkommen
-				when others => null;
-			end case;
-		else
-			ID_OPB <= R3Value;
-		end if;
+		ID_MEMDATA <= R3Value;
 		
-		if IF_IR(5 downto 0) = opcSTORE or IF_IR(5 downto 0) = opcLOAD then
-			memData <= R3Value;
-		end if;
+		--R2Value und R3Value kommen von der Registerbank
+		--R3Value könnte auch Immediate sein, dann muss er aus dem Befehl geholt werden, kann signed sein, daher auffüllen mit IR(31) auf 32 bit
+		case IF_IR(5 downto 0) is 
+			when opcADD | opcSUB | opcAND | opcOR | opcNOT | opcSHL | opcSHRA | opcSHRL =>
+				ID_OPA <= R2Value;
+				ID_OPB <= R3Value;
+			-- R1, R2 und Imm
+			when opcADDI | opcSUBI | opcORI | opcSHLI | opcSHRAI | opcSHRLI | opcLOAD | opcSTORE => 
+				ID_OPA <= R2Value;
+				ID_OPB <= IF_IR(31) & IF_IR(31) & IF_IR(31) & IF_IR(31) & IF_IR(31) & IF_IR(31) & IF_IR(31) & IF_IR(31) & IF_IR(31) & IF_IR(31) & IF_IR(31) & IF_IR(31) & IF_IR(31) & IF_IR(31) & IF_IR(31) & IF_IR(31) & IF_IR(31 downto 16);
+			-- R1 und Imm
+			when opcCEQI | opcCLTUI | opcCGTUI | opcCGTSI | opcMOVI | opcCLTSI  => 
+				ID_OPA <= R3Value;
+				ID_OPB <= IF_IR(31) & IF_IR(31) & IF_IR(31) & IF_IR(31) & IF_IR(31) & IF_IR(31) & IF_IR(31) & IF_IR(31) & IF_IR(31) & IF_IR(31) & IF_IR(31) & IF_IR(31 downto 11);
+			-- nur Imm
+ 			when opcBRR | opcJMPR => 
+				ID_OPA <= ID_PC;
+				ID_OPB <= IF_IR(31) & IF_IR(31) & IF_IR(31) & IF_IR(31) & IF_IR(31) & IF_IR(31) & IF_IR(31 downto  6);
+			when opcMOVE =>
+				ID_OPB <= R2Value;
+			when opcJMPA | opcBRA |  opcCEQ | opcCLTU | opcCLTS | opcCGTU |  opcCGTS =>
+				ID_OPA <= R3Value;
+				ID_OPB <= R2Value;
+			--muss bei case vorkommen
+			when others => null;
+		end case;
 	end if;
 end process ID_Register;
 
@@ -121,16 +116,22 @@ begin
 		EX_IR		<= ID_IR;
 		EX_OPA	<= ID_OPA;
 		EX_ALU	<= aluOut;
-		EX_FLAG	<= RegisterFlag;
+
+		if 	ID_IR(5 downto 0) = opcCEQI or ID_IR(5 downto 0) = opcCLTUI or ID_IR(5 downto 0) = opcCLTSI or 
+			ID_IR(5 downto 0) = opcCGTUI or ID_IR(5 downto 0) = opcCGTSI or ID_IR(5 downto 0) = opcJMPA or 
+			ID_IR(5 downto 0) = opcCEQ or  ID_IR(5 downto 0) = opcCLTU or ID_IR(5 downto 0) = opcCLTS  or  
+			ID_IR(5 downto 0) = opcCGTU or ID_IR(5 downto 0) = opcCGTS   then
+				EX_FLAG	<= RegisterFlag;
+		end if;
 
 		if ID_IR(5 downto 0) = opcSTORE then
 			dnWE	<= '0';
 			dnOE	<= '1';
+			memData <= ID_MEMDATA;
 		else
 			dnWE	<= '1';
 			dnOE	<= '0';
 		end if;
-		EX_MEMADRESS <= aluOut;
 	end if;
 end process EX_Register;
 
@@ -154,27 +155,32 @@ RegisterWriteDATA <= MEM_DATA when
 			else MEM_ALU;
 
 -- PC Multiplexer
-PC_Multiplexer : process (RegisterFlag, EX_OPA, EX_ALU, EX_IR, PCValueNew) is
+PC_Multiplexer : process (EX_FLAG, EX_OPA, EX_ALU, EX_IR, PCValueNew) is
 begin
-	PCr <= PCValueNew;
+	if MEM_IR(5 downto 0) = opcHALT then
+		PCr <= PCValueNew - 1;
+	else
+		PCr <= PCValueNew;
+	end if;
+
 	case EX_IR(5 downto 0) is
 		when opcJMPA => PCr <= EX_OPA;
 		when opcJMPR => PCr <= EX_ALU;
 		when opcBRA	=>
-			if RegisterFlag	= '1' then
+			if EX_FLAG	= '1' then
 				PCr <= EX_OPA;
 			end if;
 		when opcBRR =>
-			if RegisterFlag = '1' then
+			if EX_FLAG = '1' then
 				PCr	<= EX_ALU;
 			end if;
-		when opcHALT => PCr <= PCValueNew - 1;
 		when others => null;
 	end case;
 
 end process PC_Multiplexer;
 
-memAddress <= EX_MEMADRESS;
+memAddress <= EX_ALU when
+	EX_IR(5 downto 0) = opcSTORE or EX_IR(5 downto 0) = opcLOAD;
 
 writeEnable <= '1' when 
 			MEM_IR(5) = '1' or MEM_IR(5 downto 0) = opcMOVE or MEM_IR(5 downto 0) = opcMOVI or MEM_IR(5 downto 0) = opcLOAD

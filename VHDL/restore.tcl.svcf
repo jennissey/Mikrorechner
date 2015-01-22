@@ -1,6 +1,6 @@
-# SimVision Command Script (Thu Jan 15 18:07:30 CET 2015)
+# SimVision Command Script (Thu Jan 22 15:43:33 CET 2015)
 #
-# Version 13.10.s005
+# Version 14.10.s004
 #
 # You can restore this configuration with:
 #
@@ -20,11 +20,31 @@ preferences set cursorctl-dont-show-sync-warning 1
 preferences set verilog-colors {Su #ff0099 0 {} 1 {} HiZ #ff9900 We #00ffff Pu #9900ff Sm #00ff99 X #ff0000 StrX #ff0000 other #ffff00 Z #ff9900 Me #0000ff La #ff00ff St {}}
 preferences set txe-navigate-waveform-locate 1
 preferences set txe-view-hidden 0
+preferences set toolbar-TimeSearch-WaveWindow {
+  usual
+  shown 0
+}
 preferences set waveform-height 15
 preferences set txe-search-show-linenumbers 1
+preferences set toolbar-NavSignalList-WaveWindow {
+  usual
+  shown 0
+}
+preferences set toolbar-txe_waveform_toggle-WaveWindow {
+  usual
+  shown 0
+}
+preferences set toolbar-Standard-WaveWindow {
+  usual
+  shown 0
+}
 preferences set plugin-enable-groupscope 0
 preferences set key-bindings {Edit>Undo Ctrl+z PageUp PageUp View>Zoom>In Alt+i PageDown PageDown Edit>Copy Ctrl+c ScrollDown {Down arrow} Edit>Create>Group Ctrl+g View>Zoom>FullY_widget y Simulation>NextInScope F7 Edit>Select>All Ctrl+a Edit>Ungroup Ctrl+Shift+G Format>Radix>Decimal Ctrl+Shift+D TopOfPage Home Edit>Create>Condition Ctrl+e {command -console SimVision {%w sidebar access designbrowser selectall}} Alt+a ScrollLeft {Left arrow} Edit>SelectAllText Alt+a Edit>TextSearchConsole Alt+s View>Zoom>FullX_widget = Windows>SendTo>Waveform Ctrl+w Simulation>Return Shift+F5 View>CallstackDown {Ctrl+Down arrow} Select>All Ctrl+a Edit>Delete Del Edit>Cut Ctrl+x Simulation>Run F2 Edit>Create>Marker Ctrl+m Format>Radix>Octal Ctrl+Shift+O View>Center Alt+c View>CallstackInWindow Ctrl+k Edit>SelectAll Ctrl+a File>OpenDatabase Ctrl+o Edit>Redo Ctrl+y View>ExpandSequenceTime>AtCursor Alt+x Format>Radix>Binary Ctrl+Shift+B ScrollUp {Up arrow} File>CloseWindow Ctrl+Shift+w ScrollRight {Right arrow} View>Zoom>FullX Alt+= Edit>Create>Bus Ctrl+b Explore>NextEdge Ctrl+\] View>Zoom>Cursor-Baseline Alt+z View>Zoom>OutX Alt+o Edit>GoToLine Ctrl+g View>Zoom>Fit Alt+= View>Zoom>OutX_widget o View>CallstackUp {Ctrl+Up arrow} View>Bookmarks>Add Ctrl+b View>ShowValues Ctrl+s Simulation>Next F6 Format>Radix>Hexadecimal Ctrl+Shift+H Edit>Create>MarkerAtCursor Ctrl+Shift+M View>Zoom>InX Alt+i View>Zoom>Out Alt+o Edit>TextSearch Ctrl+f Edit>Paste Ctrl+v Format>Signed Ctrl+Shift+S View>CollapseSequenceTime>AtCursor Alt+s View>Zoom>InX_widget i Format>Radix>ASCII Ctrl+Shift+A Explore>PreviousEdge {Ctrl+[} Simulation>Step F5 BottomOfPage End}
 preferences set plugin-enable-interleaveandcompare 0
+preferences set toolbar-Windows-WaveWindow {
+  usual
+  shown 0
+}
 preferences set txe-navigate-waveform-next-child 1
 preferences set vhdl-colors {H #00ffff L #00ffff 0 {} X #ff0000 - {} 1 {} U #9900ff Z #ff9900 W #ff0000}
 preferences set txe-locate-scroll-x 1
@@ -102,27 +122,27 @@ if {[catch {window new WatchList -name "Design Browser 1" -geometry 958x558+411+
 }
 window target "Design Browser 1" on
 browser using {Design Browser 1}
-browser set -scope [subst  {simulator::[format {:dataMemI}]} ]
+browser set -scope [subst  {simulator::[format {:pipeProcI}]} ]
 browser set \
     -signalsort name
-browser yview see [subst  {simulator::[format {:dataMemI}]} ]
+browser yview see [subst  {simulator::[format {:pipeProcI}]} ]
 browser timecontrol set -lock 0
 
 #
 # Waveform windows
 #
-if {[catch {window new WaveWindow -name "Waveform 1" -geometry 1920x1147+0+31}] != ""} {
-    window geometry "Waveform 1" 1920x1147+0+31
+if {[catch {window new WaveWindow -name "Waveform 1" -geometry 1280x971+0+31}] != ""} {
+    window geometry "Waveform 1" 1280x971+0+31
 }
 window target "Waveform 1" on
 waveform using {Waveform 1}
-waveform sidebar visibility partial
+waveform sidebar visibility none
 waveform set \
     -primarycursor TimeA \
     -signalnames name \
-    -signalwidth 175 \
-    -units fs \
-    -valuewidth 120
+    -signalwidth 138 \
+    -units ns \
+    -valuewidth 173
 waveform baseline set -time 0
 
 set id [waveform add -signals [subst  {
@@ -137,7 +157,13 @@ set id [waveform add -signals [subst  {
 waveform format $id -radix %d
 set id [waveform add -signals [subst  {
 	{simulator::[format {:dBus}]}
+	} ]]
+waveform format $id -radix %d
+set id [waveform add -signals [subst  {
 	{simulator::[format {:dData}]}
+	} ]]
+waveform format $id -radix %d
+set id [waveform add -signals [subst  {
 	{simulator::[format {:pipeProcI:memAddress}]}
 	{simulator::[format {:pipeProcI:memData}]}
 	} ]]
@@ -162,9 +188,18 @@ set id [waveform add -signals [subst  {
 	} ]]
 waveform format $id -radix %d
 set id [waveform add -signals [subst  {
+	{[format {bus(simulator:::pipeProcI:IF_IR[5], simulator:::pipeProcI:IF_IR[4], simulator:::pipeProcI:IF_IR[3], simulator:::pipeProcI:IF_IR[2], simulator:::pipeProcI:IF_IR[1], simulator:::pipeProcI:IF_IR[0])} ]}
+	} ]]
+waveform format $id -radix %b
+set id [waveform add -signals [subst  {
+	{simulator::[format {:pipeProcI:IR}]}
+	} ]]
+waveform format $id -radix %b
+waveform hierarchy collapse $id
+set id [waveform add -signals [subst  {
 	{simulator::[format {:pipeProcI:IF_IR}]}
 	} ]]
-waveform format $id -radix %d
+waveform format $id -radix %b
 set id [waveform add -signals [subst  {
 	{simulator::[format {:pipeProcI:ID_OPA}]}
 	} ]]
@@ -188,9 +223,20 @@ waveform format $id -radix %d
 set id [waveform add -signals [subst  {
 	{simulator::[format {:pipeProcI:EX_FLAG}]}
 	{simulator::[format {:pipeProcI:RF1:Registers}]}
+	} ]]
+set id [waveform add -signals [subst  {
 	{simulator::[format {:pipeProcI:RF1:Registers[0]}]}
+	} ]]
+waveform format $id -radix %d
+set id [waveform add -signals [subst  {
 	{simulator::[format {:pipeProcI:RF1:Registers[1]}]}
+	} ]]
+waveform format $id -radix %d
+set id [waveform add -signals [subst  {
 	{simulator::[format {:pipeProcI:RF1:Registers[2]}]}
+	} ]]
+waveform format $id -radix %d
+set id [waveform add -signals [subst  {
 	{simulator::[format {:pipeProcI:RF1:Registers[3]}]}
 	{simulator::[format {:pipeProcI:RF1:Registers[29]}]}
 	{simulator::[format {:pipeProcI:RF1:Registers[30]}]}
@@ -201,9 +247,11 @@ set id [waveform add -signals [subst  {
 waveform format $id -radix %d
 set id [waveform add -signals [subst  {
 	{simulator::[format {:dataMemI:data}]}
+	{simulator::[format {:pipeProcI:MEM_ALU}]}
+	{simulator::[format {:pipeProcI:RegisterWriteDATA}]}
 	} ]]
 
-waveform xview limits 767915856fs 2865067856fs
+waveform xview limits 54494.148482ns 54599.656306ns
 
 #
 # Waveform Window Links
