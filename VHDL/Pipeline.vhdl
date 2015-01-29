@@ -36,6 +36,7 @@ PCout <= PCValue;
 
 PCValueNew <= PCValue + 1;
 
+
 -- R2 und R3 holen, R1 kommt später bei ME
 IF_Register: process (clk, nRes) is
 begin
@@ -180,7 +181,7 @@ begin
 end process PC_Multiplexer;
 
 memAddress <= EX_ALU when
-	EX_IR(5 downto 0) = opcSTORE or EX_IR(5 downto 0) = opcLOAD;
+	EX_IR(5 downto 0) = opcSTORE or EX_IR(5 downto 0) = opcLOAD else (others => '1');
 
 writeEnable <= '1' when 
 			MEM_IR(5) = '1' or MEM_IR(5 downto 0) = opcMOVE or MEM_IR(5 downto 0) = opcMOVI or MEM_IR(5 downto 0) = opcLOAD

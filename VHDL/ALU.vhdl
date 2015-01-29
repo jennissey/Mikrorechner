@@ -46,7 +46,7 @@ begin
 	end if;
 end function myshiftRightA;
 
-function toSTDLogic(bool : boolean) return std_logic
+function toSTDLogic(bool : boolean) return std_logic 
 is
 begin
 	if bool then

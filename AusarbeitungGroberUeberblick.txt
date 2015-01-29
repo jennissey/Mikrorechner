@@ -1,0 +1,40 @@
+Einleitung/Überleitung/Überblick - Benjamin
+	benutzte Tools / Sprache / alternativen?
+
+Codestruktur (Skizze) - Jesko
+	wie aus der Skizze zu entnehmen, ....
+	- ALU
+		Die Alu kümmert sich um alle Rechen-, Vergleichs sowie Shift Operationen
+		Beschreibung der Entity (Ein/Ausgänge, warum, zweck)
+
+	- Registerbank
+		Beschreibung der Entity (Ein/Ausgänge, warum, zweck)
+		Zweck einzelne Register
+
+	- Pipeline 
+		Einzelne Register, wo wird was gespeichert, warum
+		Beschreibung der Entity (Ein/Ausgänge, warum, zweck)
+		Abweichungen von Folien (Pipelining - RISC Prozessorpipelining)
+
+	- procTst
+		Simulationsumgebung, Hinweis dBus/TriState
+
+Simulation - Benjamin
+	Vorgehen / Fehleranalyse
+	betrachtete Signale
+	Screenshots
+	Probleme
+		Überblick behalten / Skizze zu spät angefertigt / aussagekräftige Namen
+		Einarbeitungszeit in VHDL Syntax
+		Immediate Wert: unterschiedliche Längen, unübersichtlicher Code (when, if, case Verschachtelungen)
+
+Ausblick/wie könnte man weiter machen - Jesko
+	FPGA - einbau von In/Out Schnittstellen (Display, Seriell, ...)
+	Einbindung weiterer Peripherie Hardware
+
+Fazit
+	Was hat gefallen
+	Was nicht
+	Verbesserungen?
+
+Anhang : vhdl Code (auf CD)
