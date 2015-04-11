@@ -8,8 +8,6 @@ use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
 use Work.CONSTANT_DEFINITIONS.all;
 
---Mäder sagt, hier nichts mehr ändern
-
 -- Register File entity
 entity RF is
 port	( clk, nRes			: in 	std_logic;

@@ -1,4 +1,5 @@
--- EX.vhd
+-- ALU.vhd
+-- enthält alle Rechen-, Logik- und Shiftoperationen
 --
 -- entity	ALU		- ALU
 -- architecture	behave		- ALU Operationen durchführen
@@ -11,7 +12,7 @@ use Work.CONSTANT_DEFINITIONS.all;
 -- ALU entity
 entity ALU is
 port    (	opA, opB	: in	signed(31 downto 0);
-	opCode		: in	signed(5 downto 0);
+	opCode	: in	signed(5 downto 0);
 	aluOut		: out	signed(31 downto 0);
 	AluFlagOut	: out	std_logic);		
 end entity ALU;

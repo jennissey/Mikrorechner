@@ -1,4 +1,4 @@
--- constantDefinitions.vhd
+-- constantsDefinitions.vhdl
 --
 ----------------------------------------------------------------------------
 library ieee;
@@ -46,7 +46,7 @@ package CONSTANT_DEFINITIONS is
 -- ALU Component
 component ALU is
 port    (	opA, opB	: in	signed(31 downto 0);
-	opCode		: in	signed(5 downto 0);
+	opCode	: in	signed(5 downto 0);
 	aluOut		: out	signed(31 downto 0);
 	AluFlagOut	: out	std_logic);		
 end component ALU;

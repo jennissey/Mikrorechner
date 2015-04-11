@@ -1,33 +1,32 @@
 -- procTst.vhd
 --
--- entity	procTst			-testbench for pipeline processor
--- architecture	testbench		-
+-- entity	procTst		- testbench for pipeline processor
+-- architecture	testbench		- behavior of procTst
 ------------------------------------------------------------------------------
-library ieee;						-- packages:
-use ieee.std_logic_1164.all;				--   std_logic
-use ieee.numeric_std.all;				--   (un)signed
-use work.sramPkg.all;					--   sram
+library ieee;			-- packages:
+use ieee.std_logic_1164.all;	--   std_logic
+use ieee.numeric_std.all;	--   (un)signed
+use work.sramPkg.all;		--   sram
 
--- entity	--------------------------------------------------------------
+-- entity -------------------------------------------------------------------
 ------------------------------------------------------------------------------
 entity procTst is
 generic(clkPeriod	: time		:= 20 ns;	-- clock period
 	clkCycles	: positive	:= 3000);	-- clock cycles
 end entity procTst;
 
-
--- architecture	--------------------------------------------------------------
+-- architecture	----------------------------------------------------------
 ------------------------------------------------------------------------------
 architecture tb of procTst is
-  signal clk, nRst					: std_logic;
-  signal const0, const1					: std_logic;
-  signal dnWE, dnOE					: std_logic;
-  signal iAddr, dAddr					: signed( 31 downto 0);
-  signal iData, dData					: std_logic_vector(31 downto 0);
-  signal iCtrl, dCtrl					: fileIOty;
-  signal Data, memData, memAdress, PCout 		: signed(31 downto 0);
-  signal dBus 						: std_logic_vector (31 downto 0);
-  signal iAddr2, dAddr2					: std_logic_vector(7 downto 0);
+  signal clk, nRst				: std_logic;
+  signal const0, const1				: std_logic;
+  signal dnWE, dnOE				: std_logic;
+  signal iAddr, dAddr				: signed( 31 downto 0);
+  signal iData, dData				: std_logic_vector(31 downto 0);
+  signal iCtrl, dCtrl				: fileIOty;
+  signal Data, memData, memAdress, PCout 	: signed(31 downto 0);
+  signal dBus 					: std_logic_vector (31 downto 0);
+  signal iAddr2, dAddr2				: std_logic_vector(7 downto 0);
 
 component Pipeline is
 port	( clk, nRes				: in	std_logic;
@@ -40,9 +39,9 @@ begin
   const0 <= '0';
   const1 <= '1';
 
-iAddr2 <= std_logic_vector(iAddr(7 downto 0));
+iAddr2  <= std_logic_vector(iAddr(7 downto 0));
 dAddr2 <= std_logic_vector(dAddr(7 downto 0));
-  -- memories		------------------------------------------------------
+  -- memories	------------------------------------------------------
   instMemI: sram	generic map (	addrWd=> 8,
 					dataWd=> 32,
 					fileID	=> "fib.program")
@@ -62,6 +61,7 @@ dAddr2 <= std_logic_vector(dAddr(7 downto 0));
 					data	=> dBus,
 					fileIO	=> dCtrl);
 
+-- Daten auf dBus, wenn gespeichert werden soll
 dBus <= std_logic_vector(dData) when dnWE = '0' else (others => 'Z');
 
   -- pipe processor	------------------------------------------------------
@@ -74,7 +74,6 @@ dBus <= std_logic_vector(dData) when dnWE = '0' else (others => 'Z');
 					dnOE				=> dnOE,
 					memAddress			=> dAddr,
 					std_logic_vector(memData)	=> dData);
-
 
   -- stimuli		------------------------------------------------------
   stiP: process is
